@@ -9,6 +9,12 @@ import io.netty.handler.timeout.IdleStateHandler;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * MyNettyServerInitiator在服务器启动的时候并未生成，
+ * 当第一个客户端请求时才创建，并且只创建一次
+ *
+ *
+ */
 public class MyNettyServerInitiator extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {

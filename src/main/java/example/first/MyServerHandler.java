@@ -1,4 +1,4 @@
-package exmaple.first;
+package example.first;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;

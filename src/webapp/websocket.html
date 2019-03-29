@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+      var sessionId;
+      var ws;
+      function WebSocketTest() {
+        if ("WebSocket" in window) {
+          // alert("您的浏览器支持 WebSocket!");
+
+          // 打开一个 web socket
+          ws = new WebSocket("ws://localhost:8899/ws");
+
+          ws.onopen = function() {
+            // Web Socket 已连接上，使用 send() 方法发送数据
+            var userName = document.getElementById("userName").value;
+            var password = document.getElementById("password").value;
+            var loginInfo = "/login.do/"+userName+"&"+password;
+            ws.send(loginInfo);
+          };
+
+          ws.onmessage = function(evt) {
+            var received_msg = evt.data;
+            if(received_msg == "error"){
+                alert("账号或密码错误！");
+            }else {
+                sessionId = "success";
+                document.getElementById("wechatPanel").value = document.getElementById("wechatPanel").value + "\n" + received_msg;
+            }
+          };
+
+          ws.onclose = function() {
+            // 关闭 websocket
+            // alert("您已经断开连接...");
+          };
+        } else {
+          // 浏览器不支持 WebSocket
+          alert("您的浏览器不支持 WebSocket!");
+        }
+      }
+
+      // 发送消息
+      function send_msg() {
+        if(!ws){
+            alert("请先登录！");
+        }else {
+            if(!sessionId){
+                alert("请先登录！");
+            }else {
+                var sendMsg = document.getElementById("contentPanel").value;
+                ws.send(sendMsg);
+            }
+        }
+      }
+
+    </script>
+    <title>Netty_demo</title>
+</head>
+
+<body>
+<form id="sse">
+    <label>用户名<input type="text" id="userName"/></label>
+    <br/>
+    <br/>
+    <label>密  &nbsp;&nbsp;码<input type="text" id="password"/></label>
+    <br/>
+    <br/>
+    <input type="button" onclick="WebSocketTest()" value="登 录"/>
+    <br/>
+    <br/>
+    <textarea rows="30" cols="60" id="wechatPanel" disabled="true"></textarea>
+    <br/>
+    <br/>
+    <input type="text" id="contentPanel"></input>
+    <input type="button" value="发送" onclick="send_msg()">
+</form>
+</body>
+
+</html>

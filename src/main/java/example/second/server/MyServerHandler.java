@@ -9,6 +9,8 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 
 /**
  * 多人通讯的功能
+ *
+ * MyServerHandler 每新连接一个客户端就会创建一次该handler实例
  */
 public class MyServerHandler extends SimpleChannelInboundHandler<String> {
 
